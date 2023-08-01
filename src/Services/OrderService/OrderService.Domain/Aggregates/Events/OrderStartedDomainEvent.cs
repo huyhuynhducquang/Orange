@@ -3,7 +3,7 @@ using OrderService.Domain.Aggregates.OrderAggregate;
 
 namespace OrderService.Domain.Aggregates.Events
 {
-    internal class OrderCreatedDomainEvent : INotification
+    public class OrderCreatedDomainEvent : INotification
     {
         public string UserId { get; }
         public string UserName { get; }
