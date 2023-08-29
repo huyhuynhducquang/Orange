@@ -8,18 +8,18 @@ namespace OrderService.Application.Cqrs.Commands
     {
         private readonly List<OrderItemDto> _orderItems;
 
-        public string UserId { get; }
-        public string UserName { get; }
-        public string City { get; }
-        public string Street { get; }
-        public string State { get; }
-        public string Country { get; }
-        public string ZipCode { get; }
-        public string CardNumber { get; }
-        public string CardHolderName { get; }
-        public DateTime CardExpiration { get; }
-        public string CardSecurityNumber { get; }
-        public int CardTypeId { get; }
+        public string UserId { get; init; }
+        public string UserName { get; init; }
+        public string City { get; init; }
+        public string Street { get; init; }
+        public string State { get; init; }
+        public string Country { get; init; }
+        public string ZipCode { get; init; }
+        public string CardNumber { get; init; }
+        public string CardHolderName { get; init; }
+        public DateTime CardExpiration { get; init; }
+        public string CardSecurityNumber { get; init; }
+        public int CardTypeId { get; init; }
 
         public IEnumerable<OrderItemDto> OrderItems => _orderItems;
 

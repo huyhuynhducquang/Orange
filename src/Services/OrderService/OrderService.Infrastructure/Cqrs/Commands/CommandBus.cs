@@ -15,9 +15,18 @@ namespace OrderService.Infrastructure.Cqrs.Commands
             unitOfWork = serviceProvider.GetRequiredService<IUnitOfWork>();
         }
 
-        public Task<CommandResult> SendAsync(ICommand command, CancellationToken cancellationToken = default)
+        public async Task<CommandResult> SendAsync(ICommand command, CancellationToken cancellationToken = default)
         {
-            return unitOfWork.ExecuteAsync(() => mediator.Send(command, cancellationToken), cancellationToken);
+            try
+            {
+                var commandResult = await unitOfWork.ExecuteAsync(() => mediator.Send(command, cancellationToken), cancellationToken);
+                return commandResult;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);    
+            }
+            return CommandResult.Error("");
         }
 
         public Task<CommandResult<TResponse>> SendAsync<TResponse>(ICommand<TResponse> command, CancellationToken cancellationToken = default)

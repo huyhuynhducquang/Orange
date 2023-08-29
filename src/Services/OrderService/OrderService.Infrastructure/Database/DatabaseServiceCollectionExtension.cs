@@ -18,7 +18,14 @@ namespace OrderService.Infrastructure.Database
                 option.UseSqlServer(configuration.GetConnectionString("OrderServiceConnectionString"));
             });
 
-            services.AddScoped<IUnitOfWork>(scope => new UnitOfWork(scope.GetService<OrderServiceContext>(), scope.GetService<IMediator>()));
+            services.AddScoped<IUnitOfWork>(serviceProvider =>
+            {
+                var contextService = serviceProvider.GetService<OrderServiceContext>() ?? throw new ArgumentNullException(nameof(OrderServiceContext));
+                var mediatorService = serviceProvider.GetService<IMediator>() ?? throw new ArgumentNullException(nameof(IMediator));
+
+                return new UnitOfWork(contextService, mediatorService);
+            });
+
             services.AddScoped<IOrderRepository, OrderRepository>();
             services.AddScoped<IBuyerRepository, BuyerRepository>();
 

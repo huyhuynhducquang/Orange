@@ -5,14 +5,14 @@ namespace OrderService.Domain.Aggregates.Events
 {
     public class OrderCreatedDomainEvent : INotification
     {
-        public string UserId { get; }
-        public string UserName { get; }
-        public int CardTypeId { get; }
-        public string CardNumber { get; }
-        public string CardSecurityNumber { get; }
-        public string CardHolderName { get; }
-        public DateTime CardExpiration { get; }
-        public Order Order { get; }
+        public string UserId { get; init; }
+        public string UserName { get; init; }
+        public int CardTypeId { get; init; }
+        public string CardNumber { get; init; }
+        public string CardSecurityNumber { get; init; }
+        public string CardHolderName { get; init; }
+        public DateTime CardExpiration { get; init; }
+        public Order Order { get; init; }
 
         public OrderCreatedDomainEvent(Order order, string userId, string userName,
                                        int cardTypeId, string cardNumber,

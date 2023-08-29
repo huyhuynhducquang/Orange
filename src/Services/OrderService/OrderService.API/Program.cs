@@ -1,26 +1,21 @@
-using OrderService.Application;
-using OrderService.Infrastructure;
-using System.Reflection;
-
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+builder.AddMicroserviceRegistration();
 
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-builder.Services.AddApplicationRegistration();
-builder.Services.AddInfrastructureRegistration(builder.Configuration);
+var services = builder.Services;
 
-builder.Services.AddTransient<DbInitialiser>();
-using var serviceProvider = builder.Services.BuildServiceProvider();
-var initialiser = serviceProvider.GetRequiredService<DbInitialiser>();
-initialiser.Run();
+services.AddControllers();
+services.AddEndpointsApiExplorer();
+services.AddSwaggerGen();
+services.AddApplicationRegistration();
+services.AddInfrastructureRegistration(builder.Configuration);
+
+services.AddEventBusEventHandlerCollection();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+app.Services.AddEventBusSubcribes();
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -28,9 +23,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.Run();

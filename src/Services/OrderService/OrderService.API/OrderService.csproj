@@ -11,6 +11,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Libraries\EventBus.RabbitMQ\EventBus.RabbitMQ.csproj" />
+    <ProjectReference Include="..\..\..\Libraries\EventBus\EventBus.csproj" />
     <ProjectReference Include="..\OrderService.Application\OrderService.Application.csproj" />
   </ItemGroup>
 
