@@ -16,7 +16,7 @@ namespace OrderService.Application.IntergrationEvents.EventHandlers
 
         public Task Handle(OrderStartedIntegrationEvent @event)
         {
-            _logger.LogInformation("Handling integration event: {IntegrationEventId} - ({@IntegrationEvent})", @event.Id, @event);
+            _logger.LogInformation("Handling integration event: ({@IntegrationEvent})", @event);
             return Task.CompletedTask;
         }
     }

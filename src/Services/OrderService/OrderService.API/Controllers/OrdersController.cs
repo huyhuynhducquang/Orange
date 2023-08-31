@@ -10,10 +10,12 @@ namespace OrderService.Controllers
     public class OrdersController : ControllerBase
     {
         private readonly ICommandBus _commandBus;
+        private readonly IEventBus eventBus;
 
-        public OrdersController(ICommandBus commandBus)
+        public OrdersController(ICommandBus commandBus, IEventBus eventBus)
         {
             _commandBus = commandBus ?? throw new ArgumentNullException(nameof(commandBus));
+            this.eventBus = eventBus ?? throw new ArgumentNullException(nameof(eventBus)); ;
         }
 
         [HttpPost]
@@ -25,6 +27,13 @@ namespace OrderService.Controllers
 
             var result = await _commandBus.SendAsync(command);
 
+            return Ok();
+        }
+
+        [HttpGet]
+        public IActionResult TestPublisher()
+        {
+            eventBus.Publish(new OrderStartedIntegrationEvent(Guid.NewGuid().ToString()));
             return Ok();
         }
     }
