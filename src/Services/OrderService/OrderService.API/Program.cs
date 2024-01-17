@@ -3,14 +3,23 @@ var builder = WebApplication.CreateBuilder(args);
 builder.AddMicroserviceRegistration();
 
 var services = builder.Services;
+var configuration = builder.Configuration;
+services.AddLogging(builder =>
+{
+    builder.AddFilter("Microsoft.EntityFrameworkCore.Database.Command", LogLevel.None)
+        .AddConsole();
+});
 
 services.AddControllers();
 services.AddEndpointsApiExplorer();
 services.AddSwaggerGen();
-services.AddApplicationRegistration();
-services.AddInfrastructureRegistration(builder.Configuration);
 
-services.AddEventBusEventHandlerCollection();
+services
+    .AddBehaviors()
+    .AddEventBusEventHandlers()
+    .AddApplicationRegistration()
+    .AddIntegrationServices(configuration)
+    .AddInfrastructureRegistration(configuration);
 
 var app = builder.Build();
 
